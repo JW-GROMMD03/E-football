@@ -3,20 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Premier League Manager</title>
+    <title>eFootball Manager</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="icon" type="image/x-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚽</text></svg>">
     <style>
         :root {
-            --primary: #37003c;
-            --secondary: #00ff87;
-            --accent: #e90052;
-            --light: #f8f9fa;
-            --dark: #212529;
-            --success: #28a745;
-            --warning: #ffc107;
-            --danger: #dc3545;
-            --gray: #6c757d;
-            --border: #dee2e6;
+            --primary: #1a1a2e;
+            --secondary: #00a8ff;
+            --accent: #ff4757;
+            --light: #f1f2f6;
+            --dark: #2f3542;
+            --success: #2ed573;
+            --warning: #ffa502;
+            --danger: #ff4757;
+            --gray: #747d8c;
+            --border: #dfe4ea;
+            --konami-blue: #0066cc;
+            --konami-red: #cc0033;
         }
         
         * {
@@ -27,9 +30,74 @@
         }
         
         body {
-            background-color: #f5f5f5;
-            color: var(--dark);
+            background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+            color: var(--light);
             line-height: 1.6;
+            min-height: 100vh;
+            position: relative;
+            overflow-x: hidden;
+        }
+        
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><rect width="100" height="100" fill="%231a1a2e" opacity="0.8"/><path d="M30,30 L70,30 L70,70 L30,70 Z" fill="none" stroke="%2300a8ff" stroke-width="2"/><circle cx="50" cy="50" r="20" fill="none" stroke="%23ff4757" stroke-width="2"/></svg>');
+            background-size: 200px;
+            opacity: 0.05;
+            z-index: -1;
+        }
+        
+        .konami-animation {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 9999;
+            opacity: 0;
+            transition: opacity 1s;
+        }
+        
+        .konami-logo {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0);
+            font-size: 4rem;
+            font-weight: bold;
+            color: white;
+            text-shadow: 0 0 10px var(--konami-blue), 0 0 20px var(--konami-blue);
+            animation: konamiPulse 2s ease-out;
+        }
+        
+        @keyframes konamiPulse {
+            0% { transform: translate(-50%, -50%) scale(0); opacity: 0; }
+            50% { transform: translate(-50%, -50%) scale(1.2); opacity: 1; }
+            100% { transform: translate(-50%, -50%) scale(1); opacity: 0; }
+        }
+        
+        .floating-ball {
+            position: fixed;
+            width: 50px;
+            height: 50px;
+            background: radial-gradient(circle at 30% 30%, var(--konami-blue), var(--primary));
+            border-radius: 50%;
+            box-shadow: 0 0 20px var(--konami-blue);
+            animation: float 6s ease-in-out infinite;
+            z-index: -1;
+        }
+        
+        @keyframes float {
+            0% { transform: translate(0, 0) rotate(0deg); }
+            25% { transform: translate(10px, 20px) rotate(90deg); }
+            50% { transform: translate(20px, 10px) rotate(180deg); }
+            75% { transform: translate(10px, -10px) rotate(270deg); }
+            100% { transform: translate(0, 0) rotate(360deg); }
         }
         
         .container {
@@ -39,12 +107,14 @@
         }
         
         header {
-            background: linear-gradient(135deg, var(--primary), #5a1a6b);
+            background: rgba(26, 26, 46, 0.9);
             color: white;
             padding: 20px 0;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
             margin-bottom: 30px;
-            border-radius: 0 0 10px 10px;
+            border-radius: 0 0 15px 15px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
         }
         
         .header-content {
@@ -59,27 +129,47 @@
             gap: 15px;
         }
         
-        .logo i {
+        .logo-icon {
             font-size: 2.5rem;
             color: var(--secondary);
+            text-shadow: 0 0 10px var(--secondary);
+            animation: logoGlow 3s infinite alternate;
+        }
+        
+        @keyframes logoGlow {
+            from { text-shadow: 0 0 10px var(--secondary); }
+            to { text-shadow: 0 0 20px var(--secondary), 0 0 30px var(--konami-blue); }
         }
         
         .logo h1 {
             font-size: 2rem;
             font-weight: 700;
+            background: linear-gradient(to right, var(--secondary), var(--konami-blue));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
         
         .search-bar {
             display: flex;
             gap: 10px;
+            position: relative;
         }
         
         .search-bar input {
             padding: 10px 15px;
-            border: none;
+            border: 1px solid rgba(255, 255, 255, 0.2);
             border-radius: 5px;
             width: 300px;
             font-size: 1rem;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            transition: all 0.3s;
+        }
+        
+        .search-bar input:focus {
+            outline: none;
+            border-color: var(--secondary);
+            box-shadow: 0 0 10px rgba(0, 168, 255, 0.5);
         }
         
         .search-bar button {
@@ -94,27 +184,61 @@
         }
         
         .search-bar button:hover {
-            background: #00e077;
+            background: #0097e6;
+            transform: translateY(-2px);
+        }
+        
+        .search-results {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background: rgba(26, 26, 46, 0.95);
+            border-radius: 5px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            max-height: 300px;
+            overflow-y: auto;
+            z-index: 100;
+            display: none;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .search-result-item {
+            padding: 10px 15px;
+            cursor: pointer;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            transition: background 0.2s;
+        }
+        
+        .search-result-item:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+        
+        .search-result-item:last-child {
+            border-bottom: none;
         }
         
         .card {
-            background: white;
-            border-radius: 10px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+            background: rgba(26, 26, 46, 0.8);
+            border-radius: 15px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
             padding: 25px;
             margin-bottom: 25px;
-            transition: transform 0.3s ease;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
         }
         
         .card:hover {
             transform: translateY(-5px);
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.4);
         }
         
         .card-title {
             font-size: 1.5rem;
             margin-bottom: 20px;
-            color: var(--primary);
-            border-bottom: 2px solid var(--border);
+            color: var(--secondary);
+            border-bottom: 2px solid rgba(255, 255, 255, 0.1);
             padding-bottom: 10px;
             display: flex;
             justify-content: space-between;
@@ -129,52 +253,62 @@
             display: block;
             margin-bottom: 8px;
             font-weight: 600;
+            color: var(--light);
         }
         
         input, select, button {
             width: 100%;
             padding: 12px 15px;
-            border: 1px solid var(--border);
+            border: 1px solid rgba(255, 255, 255, 0.2);
             border-radius: 5px;
             font-size: 1rem;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            transition: all 0.3s;
+        }
+        
+        input:focus, select:focus {
+            outline: none;
+            border-color: var(--secondary);
+            box-shadow: 0 0 10px rgba(0, 168, 255, 0.5);
         }
         
         button {
-            background-color: var(--primary);
+            background: linear-gradient(135deg, var(--secondary), var(--konami-blue));
             color: white;
             border: none;
             cursor: pointer;
-            transition: background-color 0.3s;
+            transition: all 0.3s;
             font-weight: 600;
         }
         
         button:hover {
-            background-color: #4a0a52;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 168, 255, 0.4);
         }
         
         .btn-secondary {
-            background-color: var(--secondary);
-            color: var(--primary);
+            background: linear-gradient(135deg, var(--success), #1dd1a1);
         }
         
         .btn-secondary:hover {
-            background-color: #00e077;
+            box-shadow: 0 5px 15px rgba(46, 213, 115, 0.4);
         }
         
         .btn-danger {
-            background-color: var(--danger);
+            background: linear-gradient(135deg, var(--danger), #ff3838);
         }
         
         .btn-danger:hover {
-            background-color: #c82333;
+            box-shadow: 0 5px 15px rgba(255, 71, 87, 0.4);
         }
         
         .btn-success {
-            background-color: var(--success);
+            background: linear-gradient(135deg, var(--success), #1dd1a1);
         }
         
         .btn-success:hover {
-            background-color: #218838;
+            box-shadow: 0 5px 15px rgba(46, 213, 115, 0.4);
         }
         
         .team-list {
@@ -185,13 +319,37 @@
         }
         
         .team-card {
-            background: var(--light);
+            background: rgba(255, 255, 255, 0.1);
             padding: 15px;
-            border-radius: 8px;
+            border-radius: 10px;
             display: flex;
             justify-content: space-between;
             align-items: center;
             border-left: 4px solid var(--secondary);
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .team-card:hover {
+            background: rgba(255, 255, 255, 0.15);
+            transform: translateY(-3px);
+        }
+        
+        .team-card::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.05), transparent);
+            transform: translateX(-100%);
+            transition: transform 0.6s;
+        }
+        
+        .team-card:hover::before {
+            transform: translateX(100%);
         }
         
         .team-name {
@@ -205,12 +363,24 @@
             padding: 5px 10px;
             border-radius: 20px;
             font-size: 0.9rem;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .team-actions {
+            display: flex;
+            gap: 5px;
+            margin-top: 10px;
+        }
+        
+        .team-actions button {
+            padding: 5px 10px;
+            font-size: 0.8rem;
         }
         
         .tabs {
             display: flex;
             margin-bottom: 20px;
-            border-bottom: 1px solid var(--border);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
             flex-wrap: wrap;
         }
         
@@ -220,11 +390,12 @@
             font-weight: 600;
             border-bottom: 3px solid transparent;
             transition: all 0.3s;
+            color: var(--gray);
         }
         
         .tab.active {
             border-bottom: 3px solid var(--secondary);
-            color: var(--primary);
+            color: var(--secondary);
         }
         
         .tab-content {
@@ -236,14 +407,16 @@
         }
         
         .matchday-header {
-            background: var(--primary);
+            background: linear-gradient(135deg, var(--primary), #25254e);
             color: white;
             padding: 15px;
-            border-radius: 8px 8px 0 0;
+            border-radius: 10px 10px 0 0;
             display: flex;
             justify-content: space-between;
             align-items: center;
             margin-bottom: 0;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-bottom: none;
         }
         
         .countdown {
@@ -265,9 +438,16 @@
             align-items: center;
             padding: 15px;
             margin-bottom: 15px;
-            background: var(--light);
+            background: rgba(255, 255, 255, 0.05);
             border-radius: 8px;
             border-left: 5px solid var(--secondary);
+            transition: all 0.3s;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .fixture-card:hover {
+            background: rgba(255, 255, 255, 0.08);
+            transform: translateX(5px);
         }
         
         .match-teams {
@@ -288,6 +468,7 @@
             color: white;
             font-weight: bold;
             font-size: 0.8rem;
+            border: 1px solid rgba(255, 255, 255, 0.2);
         }
         
         .vs {
@@ -309,18 +490,21 @@
         }
         
         .status-pending {
-            background: #fff3cd;
-            color: #856404;
+            background: rgba(255, 165, 2, 0.2);
+            color: var(--warning);
+            border: 1px solid rgba(255, 165, 2, 0.3);
         }
         
         .status-completed {
-            background: #d1ecf1;
-            color: #0c5460;
+            background: rgba(46, 213, 115, 0.2);
+            color: var(--success);
+            border: 1px solid rgba(46, 213, 115, 0.3);
         }
         
         .status-today {
-            background: #d4edda;
-            color: #155724;
+            background: rgba(0, 168, 255, 0.2);
+            color: var(--secondary);
+            border: 1px solid rgba(0, 168, 255, 0.3);
         }
         
         .result-input {
@@ -338,26 +522,35 @@
             width: 100%;
             border-collapse: collapse;
             margin-top: 20px;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
         }
         
         .league-table th {
-            background: var(--primary);
-            color: white;
+            background: rgba(26, 26, 46, 0.9);
+            color: var(--secondary);
             padding: 12px 15px;
             text-align: left;
+            border-bottom: 2px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .league-table tr {
+            background: rgba(255, 255, 255, 0.05);
+            transition: background 0.3s;
         }
         
         .league-table tr:nth-child(even) {
-            background: #f8f9fa;
+            background: rgba(255, 255, 255, 0.08);
         }
         
         .league-table tr:hover {
-            background: #e9ecef;
+            background: rgba(255, 255, 255, 0.1);
         }
         
         .league-table td {
             padding: 12px 15px;
-            border-bottom: 1px solid var(--border);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
         }
         
         .position {
@@ -397,11 +590,21 @@
         .prediction-card {
             text-align: center;
             padding: 20px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s;
+        }
+        
+        .prediction-card:hover {
+            background: rgba(255, 255, 255, 0.08);
+            transform: translateY(-5px);
         }
         
         .prediction-title {
             font-size: 1.2rem;
             margin-bottom: 15px;
+            color: var(--secondary);
         }
         
         .prediction-percentages {
@@ -440,7 +643,7 @@
         
         .progress-bar {
             height: 10px;
-            background: #e9ecef;
+            background: rgba(255, 255, 255, 0.1);
             border-radius: 5px;
             overflow: hidden;
             margin-bottom: 5px;
@@ -475,6 +678,8 @@
             opacity: 0;
             transform: translateX(100%);
             transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
         }
         
         .notification.show {
@@ -483,21 +688,26 @@
         }
         
         .notification-success {
-            background: var(--success);
+            background: rgba(46, 213, 115, 0.9);
         }
         
         .notification-warning {
-            background: var(--warning);
+            background: rgba(255, 165, 2, 0.9);
             color: var(--dark);
         }
         
         .notification-danger {
-            background: var(--danger);
+            background: rgba(255, 71, 87, 0.9);
         }
         
         .archive-item {
             padding: 15px;
-            border-bottom: 1px solid var(--border);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            transition: background 0.3s;
+        }
+        
+        .archive-item:hover {
+            background: rgba(255, 255, 255, 0.05);
         }
         
         .archive-item:last-child {
@@ -534,6 +744,18 @@
             width: auto;
         }
         
+        .empty-state {
+            text-align: center;
+            padding: 40px 20px;
+            color: var(--gray);
+        }
+        
+        .empty-state i {
+            font-size: 3rem;
+            margin-bottom: 15px;
+            color: var(--secondary);
+        }
+        
         @media (max-width: 768px) {
             .header-content {
                 flex-direction: column;
@@ -567,20 +789,34 @@
                 overflow-x: auto;
                 white-space: nowrap;
             }
+            
+            .result-input {
+                width: 100%;
+                justify-content: center;
+            }
         }
     </style>
 </head>
 <body>
+    <!-- Konami Animation Container -->
+    <div class="konami-animation" id="konami-animation"></div>
+    
+    <!-- Floating balls for background effect -->
+    <div class="floating-ball" style="top: 10%; left: 5%; animation-delay: 0s;"></div>
+    <div class="floating-ball" style="top: 70%; left: 80%; animation-delay: 2s; width: 30px; height: 30px;"></div>
+    <div class="floating-ball" style="top: 40%; left: 90%; animation-delay: 4s; width: 40px; height: 40px;"></div>
+    
     <header>
         <div class="container">
             <div class="header-content">
                 <div class="logo">
-                    <i class="fas fa-futbol"></i>
-                    <h1>Premier League Manager</h1>
+                    <i class="fas fa-futbol logo-icon"></i>
+                    <h1>eFootball Manager</h1>
                 </div>
                 <div class="search-bar">
                     <input type="text" id="search-input" placeholder="Search for team or fixture...">
                     <button id="search-btn"><i class="fas fa-search"></i> Search</button>
+                    <div class="search-results" id="search-results"></div>
                 </div>
             </div>
         </div>
@@ -616,7 +852,11 @@
             <div class="card">
                 <h2 class="card-title">Teams in League <span id="teams-count">(0 teams)</span></h2>
                 <div id="teams-list" class="team-list">
-                    <!-- Teams will be displayed here -->
+                    <div class="empty-state">
+                        <i class="fas fa-users"></i>
+                        <h3>No Teams Added</h3>
+                        <p>Add teams to get started with your league</p>
+                    </div>
                 </div>
                 <div style="margin-top: 20px; display: flex; gap: 10px;">
                     <button id="generate-fixtures" class="btn-secondary">Generate Fixtures</button>
@@ -633,7 +873,11 @@
                     <div class="countdown" id="matchday-countdown">Countdown: 0d 0h 0m 0s</div>
                 </div>
                 <div class="fixtures-list" id="current-fixtures">
-                    <!-- Current matchday fixtures will be displayed here -->
+                    <div class="empty-state">
+                        <i class="fas fa-calendar-alt"></i>
+                        <h3>No Fixtures Generated</h3>
+                        <p>Add teams and generate fixtures to see matchdays</p>
+                    </div>
                 </div>
             </div>
             
@@ -646,7 +890,11 @@
                     </select>
                 </div>
                 <div id="selected-fixtures">
-                    <!-- Selected matchday fixtures will be displayed here -->
+                    <div class="empty-state">
+                        <i class="fas fa-futbol"></i>
+                        <h3>No Fixtures Available</h3>
+                        <p>Generate fixtures to view matchdays</p>
+                    </div>
                 </div>
             </div>
         </div>
@@ -672,7 +920,15 @@
                         </tr>
                     </thead>
                     <tbody id="table-body">
-                        <!-- Table rows will be populated here -->
+                        <tr>
+                            <td colspan="11" style="text-align: center; padding: 40px;">
+                                <div class="empty-state" style="padding: 0;">
+                                    <i class="fas fa-trophy"></i>
+                                    <h3>No League Data</h3>
+                                    <p>Add teams and play matches to see the league table</p>
+                                </div>
+                            </td>
+                        </tr>
                     </tbody>
                 </table>
             </div>
@@ -683,14 +939,22 @@
             <div class="card">
                 <h2 class="card-title">Enter Match Results</h2>
                 <div id="results-list">
-                    <!-- Results input will be displayed here -->
+                    <div class="empty-state">
+                        <i class="fas fa-clipboard-list"></i>
+                        <h3>No Matches to Record</h3>
+                        <p>Generate fixtures and start a matchday to enter results</p>
+                    </div>
                 </div>
             </div>
             
             <div class="card">
                 <h2 class="card-title">Match History</h2>
                 <div id="match-history">
-                    <!-- Match history will be displayed here -->
+                    <div class="empty-state">
+                        <i class="fas fa-history"></i>
+                        <h3>No Match History</h3>
+                        <p>Play matches to build a history</p>
+                    </div>
                 </div>
             </div>
         </div>
@@ -700,14 +964,22 @@
             <div class="card">
                 <h2 class="card-title">Today's Match Predictions</h2>
                 <div id="predictions-list" class="analytics-grid">
-                    <!-- Predictions will be displayed here -->
+                    <div class="empty-state">
+                        <i class="fas fa-chart-line"></i>
+                        <h3>No Predictions Available</h3>
+                        <p>Generate fixtures for the current matchday to see predictions</p>
+                    </div>
                 </div>
             </div>
             
             <div class="card">
                 <h2 class="card-title">Team Performance Analytics</h2>
                 <div id="team-performance">
-                    <!-- Team performance will be displayed here -->
+                    <div class="empty-state">
+                        <i class="fas fa-chart-bar"></i>
+                        <h3>No Performance Data</h3>
+                        <p>Add teams and play matches to see analytics</p>
+                    </div>
                 </div>
             </div>
         </div>
@@ -717,7 +989,11 @@
             <div class="card">
                 <h2 class="card-title">Prediction Archive</h2>
                 <div id="prediction-archive">
-                    <!-- Prediction archive will be displayed here -->
+                    <div class="empty-state">
+                        <i class="fas fa-archive"></i>
+                        <h3>No Prediction Archive</h3>
+                        <p>Complete matches with predictions to build an archive</p>
+                    </div>
                 </div>
             </div>
         </div>
@@ -733,6 +1009,8 @@
         let predictions = [];
         let currentMatchday = 1;
         let matchdays = [];
+        let konamiCode = [];
+        const konamiSequence = ['ArrowUp', 'ArrowUp', 'ArrowDown', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'ArrowLeft', 'ArrowRight', 'KeyB', 'KeyA'];
         
         // DOM Elements
         const teamForm = document.getElementById('team-form');
@@ -756,6 +1034,8 @@
         const tabContents = document.querySelectorAll('.tab-content');
         const searchInput = document.getElementById('search-input');
         const searchBtn = document.getElementById('search-btn');
+        const searchResults = document.getElementById('search-results');
+        const konamiAnimation = document.getElementById('konami-animation');
         
         // Initialize data from localStorage
         function initializeData() {
@@ -856,13 +1136,19 @@
             showNotification(`Team ${name} added successfully!`);
         });
         
-        // Render teams
+        // Render teams with edit and delete options
         function renderTeams() {
             teamsList.innerHTML = '';
             teamsCount.textContent = `(${teams.length} teams)`;
             
             if (teams.length === 0) {
-                teamsList.innerHTML = '<p>No teams added yet. Add teams to get started.</p>';
+                teamsList.innerHTML = `
+                    <div class="empty-state">
+                        <i class="fas fa-users"></i>
+                        <h3>No Teams Added</h3>
+                        <p>Add teams to get started with your league</p>
+                    </div>
+                `;
                 return;
             }
             
@@ -873,11 +1159,85 @@
                     <div>
                         <div class="team-name">${team.name}</div>
                         <div class="match-date">Strength: ${team.strength.toLocaleString()}</div>
+                        <div class="team-actions">
+                            <button class="btn-secondary edit-team" data-team="${team.id}">Edit</button>
+                            <button class="btn-danger delete-team" data-team="${team.id}">Delete</button>
+                        </div>
                     </div>
                     <div class="team-strength">${team.points} pts</div>
                 `;
+                
                 teamsList.appendChild(teamCard);
             });
+            
+            // Add event listeners to edit buttons
+            document.querySelectorAll('.edit-team').forEach(button => {
+                button.addEventListener('click', function() {
+                    const teamId = parseInt(this.getAttribute('data-team'));
+                    editTeam(teamId);
+                });
+            });
+            
+            // Add event listeners to delete buttons
+            document.querySelectorAll('.delete-team').forEach(button => {
+                button.addEventListener('click', function() {
+                    const teamId = parseInt(this.getAttribute('data-team'));
+                    deleteTeam(teamId);
+                });
+            });
+        }
+        
+        // Edit team strength
+        function editTeam(teamId) {
+            const team = teams.find(t => t.id === teamId);
+            if (!team) return;
+            
+            const newStrength = prompt(`Edit strength for ${team.name}:`, team.strength);
+            
+            if (newStrength && !isNaN(newStrength) && parseInt(newStrength) >= 3000) {
+                team.strength = parseInt(newStrength);
+                saveData();
+                renderTeams();
+                renderPredictions();
+                showNotification(`${team.name}'s strength updated to ${team.strength}!`);
+            } else if (newStrength !== null) {
+                showNotification('Strength must be a number 3000 or higher!', 'danger');
+            }
+        }
+        
+        // Delete team
+        function deleteTeam(teamId) {
+            const team = teams.find(t => t.id === teamId);
+            if (!team) return;
+            
+            if (confirm(`Are you sure you want to delete ${team.name}? This will also remove all their fixtures and results.`)) {
+                // Remove team
+                teams = teams.filter(t => t.id !== teamId);
+                
+                // Remove fixtures involving this team
+                fixtures = fixtures.filter(f => f.homeTeam !== teamId && f.awayTeam !== teamId);
+                
+                // Remove results involving this team
+                results = results.filter(r => {
+                    const fixture = fixtures.find(f => f.id === r.fixtureId);
+                    return fixture !== undefined;
+                });
+                
+                // Recalculate matchdays
+                updateMatchdays();
+                
+                saveData();
+                renderTeams();
+                renderFixtures();
+                renderTable();
+                renderResultsInput();
+                renderMatchHistory();
+                renderTeamPerformance();
+                renderPredictions();
+                renderPredictionArchive();
+                
+                showNotification(`Team ${team.name} deleted successfully!`);
+            }
         }
         
         // Clear all teams
@@ -908,7 +1268,7 @@
             }
         });
         
-        // Generate fixtures
+        // Generate fixtures with realistic matchdays (all teams play on same day)
         generateFixturesBtn.addEventListener('click', function() {
             if (teams.length < 2) {
                 showNotification('Need at least 2 teams to generate fixtures!', 'danger');
@@ -933,37 +1293,54 @@
             matchdays = [];
             const today = new Date();
             
-            // Generate all possible match combinations (home and away)
-            for (let i = 0; i < teams.length; i++) {
-                for (let j = 0; j < teams.length; j++) {
-                    if (i !== j) {
+            // Create a more realistic fixture schedule where all teams play on matchdays
+            // Each team plays every other team twice (home and away)
+            const totalMatchdays = (teams.length - 1) * 2;
+            const matchesPerMatchday = Math.floor(teams.length / 2);
+            
+            // Create a list of team IDs
+            const teamIds = teams.map(team => team.id);
+            
+            // Generate fixtures using round-robin algorithm
+            for (let round = 0; round < totalMatchdays; round++) {
+                const matchdayFixtures = [];
+                
+                for (let i = 0; i < matchesPerMatchday; i++) {
+                    const homeIndex = i;
+                    const awayIndex = teams.length - 1 - i;
+                    
+                    // Alternate home/away for the second half of the season
+                    const isSecondLeg = round >= totalMatchdays / 2;
+                    const homeTeamId = isSecondLeg ? teamIds[awayIndex] : teamIds[homeIndex];
+                    const awayTeamId = isSecondLeg ? teamIds[homeIndex] : teamIds[awayIndex];
+                    
+                    // Only create fixture if both teams exist
+                    if (homeTeamId && awayTeamId) {
                         const fixture = {
                             id: fixtures.length + 1,
-                            homeTeam: teams[i].id,
-                            awayTeam: teams[j].id,
-                            matchday: Math.ceil(fixtures.length / (teams.length / 2)) + 1,
-                            date: new Date(today.getTime() + (fixtures.length * 24 * 60 * 60 * 1000)),
+                            homeTeam: homeTeamId,
+                            awayTeam: awayTeamId,
+                            matchday: round + 1,
+                            date: new Date(today.getTime() + (round * 7 * 24 * 60 * 60 * 1000)), // One matchday per week
                             homeScore: null,
                             awayScore: null,
                             completed: false
                         };
                         
+                        matchdayFixtures.push(fixture);
                         fixtures.push(fixture);
                     }
                 }
-            }
-            
-            // Calculate total matchdays
-            const totalMatchdays = teams.length * 2 - 2;
-            
-            // Organize fixtures by matchday
-            for (let i = 1; i <= totalMatchdays; i++) {
-                const matchdayFixtures = fixtures.filter(f => f.matchday === i);
+                
+                // Store matchday info
                 matchdays.push({
-                    number: i,
+                    number: round + 1,
                     fixtures: matchdayFixtures,
-                    date: matchdayFixtures.length > 0 ? matchdayFixtures[0].date : new Date(today.getTime() + ((i-1) * 7 * 24 * 60 * 60 * 1000))
+                    date: new Date(today.getTime() + (round * 7 * 24 * 60 * 60 * 1000))
                 });
+                
+                // Rotate teams for next round (except first team)
+                teamIds.splice(1, 0, teamIds.pop());
             }
             
             currentMatchday = 1;
@@ -995,8 +1372,20 @@
             selectedFixtures.innerHTML = '';
             
             if (fixtures.length === 0) {
-                currentFixtures.innerHTML = '<p>No fixtures generated yet. Add teams and generate fixtures.</p>';
-                selectedFixtures.innerHTML = '<p>No fixtures generated yet. Add teams and generate fixtures.</p>';
+                currentFixtures.innerHTML = `
+                    <div class="empty-state">
+                        <i class="fas fa-calendar-alt"></i>
+                        <h3>No Fixtures Generated</h3>
+                        <p>Add teams and generate fixtures to see matchdays</p>
+                    </div>
+                `;
+                selectedFixtures.innerHTML = `
+                    <div class="empty-state">
+                        <i class="fas fa-futbol"></i>
+                        <h3>No Fixtures Available</h3>
+                        <p>Generate fixtures to view matchdays</p>
+                    </div>
+                `;
                 return;
             }
             
@@ -1096,7 +1485,13 @@
             const currentMatchdayFixtures = fixtures.filter(f => f.matchday === currentMatchday && !f.completed);
             
             if (currentMatchdayFixtures.length === 0) {
-                resultsList.innerHTML = '<p>All matches for current matchday have been completed or no fixtures available.</p>';
+                resultsList.innerHTML = `
+                    <div class="empty-state">
+                        <i class="fas fa-clipboard-list"></i>
+                        <h3>No Matches to Record</h3>
+                        <p>All matches for current matchday have been completed or no fixtures available</p>
+                    </div>
+                `;
                 return;
             }
             
@@ -1265,7 +1660,13 @@
             matchHistory.innerHTML = '';
             
             if (results.length === 0) {
-                matchHistory.innerHTML = '<p>No matches played yet.</p>';
+                matchHistory.innerHTML = `
+                    <div class="empty-state">
+                        <i class="fas fa-history"></i>
+                        <h3>No Match History</h3>
+                        <p>Play matches to build a history</p>
+                    </div>
+                `;
                 return;
             }
             
@@ -1386,7 +1787,17 @@
             tableBody.innerHTML = '';
             
             if (teams.length === 0) {
-                tableBody.innerHTML = '<tr><td colspan="11" style="text-align: center;">No teams added yet.</td></tr>';
+                tableBody.innerHTML = `
+                    <tr>
+                        <td colspan="11" style="text-align: center; padding: 40px;">
+                            <div class="empty-state" style="padding: 0;">
+                                <i class="fas fa-trophy"></i>
+                                <h3>No League Data</h3>
+                                <p>Add teams and play matches to see the league table</p>
+                            </div>
+                        </td>
+                    </tr>
+                `;
                 return;
             }
             
@@ -1436,7 +1847,13 @@
             teamPerformance.innerHTML = '';
             
             if (teams.length === 0) {
-                teamPerformance.innerHTML = '<p>No teams added yet.</p>';
+                teamPerformance.innerHTML = `
+                    <div class="empty-state">
+                        <i class="fas fa-chart-bar"></i>
+                        <h3>No Performance Data</h3>
+                        <p>Add teams and play matches to see analytics</p>
+                    </div>
+                `;
                 return;
             }
             
@@ -1477,7 +1894,13 @@
             const currentMatchdayFixtures = fixtures.filter(f => f.matchday === currentMatchday && !f.completed);
             
             if (currentMatchdayFixtures.length === 0) {
-                predictionsList.innerHTML = '<p>No upcoming matches to predict for current matchday.</p>';
+                predictionsList.innerHTML = `
+                    <div class="empty-state">
+                        <i class="fas fa-chart-line"></i>
+                        <h3>No Predictions Available</h3>
+                        <p>Generate fixtures for the current matchday to see predictions</p>
+                    </div>
+                `;
                 return;
             }
             
@@ -1536,7 +1959,7 @@
                         <div class="progress-fill loss-fill" style="width: ${prediction.awayWin}%"></div>
                     </div>
                     
-                    <div style="margin-top: 15px; font-size: 0.9rem; color: #7f8c8d;">
+                    <div style="margin-top: 15px; font-size: 0.9rem; color: #aaa;">
                         Predicted outcome: <strong>${prediction.predictedOutcome}</strong>
                     </div>
                 `;
@@ -1643,7 +2066,13 @@
             });
             
             if (completedPredictions.length === 0) {
-                predictionArchive.innerHTML = '<p>No completed predictions to display.</p>';
+                predictionArchive.innerHTML = `
+                    <div class="empty-state">
+                        <i class="fas fa-archive"></i>
+                        <h3>No Prediction Archive</h3>
+                        <p>Complete matches with predictions to build an archive</p>
+                    </div>
+                `;
                 return;
             }
             
@@ -1734,13 +2163,96 @@
             }
         }
         
-        // Search functionality
+        // Search functionality with live results
         searchBtn.addEventListener('click', performSearch);
         searchInput.addEventListener('keyup', function(e) {
             if (e.key === 'Enter') {
                 performSearch();
+            } else {
+                // Show live search results as user types
+                const query = searchInput.value.trim().toLowerCase();
+                if (query.length > 1) {
+                    showLiveSearchResults(query);
+                } else {
+                    searchResults.style.display = 'none';
+                }
             }
         });
+        
+        // Close search results when clicking outside
+        document.addEventListener('click', function(e) {
+            if (!searchBar.contains(e.target)) {
+                searchResults.style.display = 'none';
+            }
+        });
+        
+        function showLiveSearchResults(query) {
+            const results = getSearchResults(query);
+            
+            if (results.teams.length === 0 && results.fixtures.length === 0) {
+                searchResults.style.display = 'none';
+                return;
+            }
+            
+            let resultsHTML = '';
+            
+            if (results.teams.length > 0) {
+                resultsHTML += '<div style="padding: 10px; font-weight: bold; border-bottom: 1px solid rgba(255,255,255,0.1);">Teams</div>';
+                results.teams.forEach(team => {
+                    resultsHTML += `<div class="search-result-item" data-type="team" data-id="${team.id}">
+                        <div>${team.name}</div>
+                        <div style="font-size: 0.8rem; color: #aaa;">Strength: ${team.strength.toLocaleString()}</div>
+                    </div>`;
+                });
+            }
+            
+            if (results.fixtures.length > 0) {
+                resultsHTML += '<div style="padding: 10px; font-weight: bold; border-bottom: 1px solid rgba(255,255,255,0.1); margin-top: 10px;">Fixtures</div>';
+                results.fixtures.forEach(fixture => {
+                    const homeTeam = teams.find(t => t.id === fixture.homeTeam);
+                    const awayTeam = teams.find(t => t.id === fixture.awayTeam);
+                    
+                    if (!homeTeam || !awayTeam) return;
+                    
+                    const status = fixture.completed ? 'Completed' : 'Upcoming';
+                    const score = fixture.completed ? `${fixture.homeScore} - ${fixture.awayScore}` : 'vs';
+                    
+                    resultsHTML += `<div class="search-result-item" data-type="fixture" data-id="${fixture.id}">
+                        <div>${homeTeam.name} ${score} ${awayTeam.name}</div>
+                        <div style="font-size: 0.8rem; color: #aaa;">${formatDate(new Date(fixture.date))} • ${status}</div>
+                    </div>`;
+                });
+            }
+            
+            searchResults.innerHTML = resultsHTML;
+            searchResults.style.display = 'block';
+            
+            // Add event listeners to search result items
+            document.querySelectorAll('.search-result-item').forEach(item => {
+                item.addEventListener('click', function() {
+                    const type = this.getAttribute('data-type');
+                    const id = parseInt(this.getAttribute('data-id'));
+                    
+                    if (type === 'team') {
+                        // Switch to teams tab and highlight team
+                        switchTab('teams');
+                        // In a real app, you might scroll to and highlight the team
+                    } else if (type === 'fixture') {
+                        // Switch to fixtures tab
+                        switchTab('fixtures');
+                        // Find the matchday of this fixture and select it
+                        const fixture = fixtures.find(f => f.id === id);
+                        if (fixture) {
+                            matchdaySelect.value = fixture.matchday;
+                            renderFixtures();
+                        }
+                    }
+                    
+                    searchResults.style.display = 'none';
+                    searchInput.value = '';
+                });
+            });
+        }
         
         function performSearch() {
             const query = searchInput.value.trim().toLowerCase();
@@ -1750,24 +2262,9 @@
                 return;
             }
             
-            // Search teams
-            const foundTeams = teams.filter(team => 
-                team.name.toLowerCase().includes(query)
-            );
+            const results = getSearchResults(query);
             
-            // Search fixtures
-            const foundFixtures = fixtures.filter(fixture => {
-                const homeTeam = teams.find(t => t.id === fixture.homeTeam);
-                const awayTeam = teams.find(t => t.id === fixture.awayTeam);
-                
-                if (!homeTeam || !awayTeam) return false;
-                
-                return homeTeam.name.toLowerCase().includes(query) || 
-                       awayTeam.name.toLowerCase().includes(query) ||
-                       `${homeTeam.name} vs ${awayTeam.name}`.toLowerCase().includes(query);
-            });
-            
-            if (foundTeams.length === 0 && foundFixtures.length === 0) {
+            if (results.teams.length === 0 && results.fixtures.length === 0) {
                 showNotification('No teams or fixtures found for your search!', 'warning');
                 return;
             }
@@ -1775,9 +2272,9 @@
             // Create search results
             let resultsHTML = '';
             
-            if (foundTeams.length > 0) {
+            if (results.teams.length > 0) {
                 resultsHTML += '<h3>Teams</h3>';
-                foundTeams.forEach(team => {
+                results.teams.forEach(team => {
                     resultsHTML += `<div class="team-card">
                         <div class="team-name">${team.name}</div>
                         <div class="team-strength">${team.strength.toLocaleString()}</div>
@@ -1785,9 +2282,9 @@
                 });
             }
             
-            if (foundFixtures.length > 0) {
+            if (results.fixtures.length > 0) {
                 resultsHTML += '<h3 style="margin-top: 20px;">Fixtures</h3>';
-                foundFixtures.forEach(fixture => {
+                results.fixtures.forEach(fixture => {
                     const homeTeam = teams.find(t => t.id === fixture.homeTeam);
                     const awayTeam = teams.find(t => t.id === fixture.awayTeam);
                     
@@ -1809,9 +2306,9 @@
             }
             
             // Show results in a modal-like card
-            const searchResults = document.createElement('div');
-            searchResults.className = 'card';
-            searchResults.innerHTML = `
+            const searchResultsCard = document.createElement('div');
+            searchResultsCard.className = 'card';
+            searchResultsCard.innerHTML = `
                 <h2 class="card-title">Search Results for "${query}"</h2>
                 <div>${resultsHTML}</div>
                 <button id="close-search" style="margin-top: 20px;">Close</button>
@@ -1819,12 +2316,38 @@
             
             // Add to page
             const container = document.querySelector('.container');
-            container.appendChild(searchResults);
+            container.appendChild(searchResultsCard);
             
             // Close button event
             document.getElementById('close-search').addEventListener('click', function() {
-                container.removeChild(searchResults);
+                container.removeChild(searchResultsCard);
             });
+            
+            searchResults.style.display = 'none';
+        }
+        
+        function getSearchResults(query) {
+            // Search teams
+            const foundTeams = teams.filter(team => 
+                team.name.toLowerCase().includes(query)
+            );
+            
+            // Search fixtures
+            const foundFixtures = fixtures.filter(fixture => {
+                const homeTeam = teams.find(t => t.id === fixture.homeTeam);
+                const awayTeam = teams.find(t => t.id === fixture.awayTeam);
+                
+                if (!homeTeam || !awayTeam) return false;
+                
+                return homeTeam.name.toLowerCase().includes(query) || 
+                       awayTeam.name.toLowerCase().includes(query) ||
+                       `${homeTeam.name} vs ${awayTeam.name}`.toLowerCase().includes(query);
+            });
+            
+            return {
+                teams: foundTeams,
+                fixtures: foundFixtures
+            };
         }
         
         // Countdown timer for matchday
@@ -1888,6 +2411,36 @@
             if (overdueMatches.length > 0) {
                 showNotification(`You have ${overdueMatches.length} overdue match(es) that need results!`, 'warning');
             }
+        }
+        
+        // Konami code detection
+        document.addEventListener('keydown', function(e) {
+            konamiCode.push(e.code);
+            
+            // Keep only the last 10 keys
+            if (konamiCode.length > 10) {
+                konamiCode.shift();
+            }
+            
+            // Check if the sequence matches
+            if (konamiCode.join(',') === konamiSequence.join(',')) {
+                activateKonamiAnimation();
+                konamiCode = []; // Reset
+            }
+        });
+        
+        function activateKonamiAnimation() {
+            konamiAnimation.style.opacity = '1';
+            konamiAnimation.innerHTML = '<div class="konami-logo">KONAMI</div>';
+            
+            setTimeout(() => {
+                konamiAnimation.style.opacity = '0';
+                setTimeout(() => {
+                    konamiAnimation.innerHTML = '';
+                }, 1000);
+            }, 3000);
+            
+            showNotification('Konami code activated!', 'success');
         }
         
         // Initialize the application
