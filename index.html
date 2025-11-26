@@ -1355,7 +1355,8 @@
     <div class="container">
         <div class="tabs">
             <div class="tab active" data-tab="teams">Teams</div>
-            <div class="tab" data-tab="fixtures">Fixtures</div>
+            <div class="tab" data-tab="fixtures">E-Football Fixtures</div>
+            <div class="tab" data-tab="champions-fixtures">Champions League Fixtures</div>
             <div class="tab" data-tab="table">League Table</div>
             <div class="tab" data-tab="results">Results</div>
             <div class="tab" data-tab="analytics">Analytics</div>
@@ -1426,7 +1427,7 @@
             </div>
         </div>
         
-        <!-- Fixtures Tab -->
+        <!-- E-Football Fixtures Tab -->
         <div class="tab-content" id="fixtures">
             <div class="card">
                 <div class="matchday-header">
@@ -1464,6 +1465,37 @@
                             <i class="fas fa-file-pdf"></i> Download as PDF
                         </button>
                         <button class="download-btn" id="download-fixtures-csv">
+                            <i class="fas fa-file-csv"></i> Download as CSV
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Champions League Fixtures Tab -->
+        <div class="tab-content" id="champions-fixtures">
+            <div class="card champions-league-card">
+                <h2 class="card-title champions-league-title">Champions League Fixtures</h2>
+                <div class="champions-matchday-selector">
+                    <label for="champions-matchday-select">Select Matchday:</label>
+                    <select id="champions-matchday-select">
+                        <!-- Champions League matchday options will be populated here -->
+                    </select>
+                </div>
+                <div class="champions-fixtures-list" id="champions-fixtures">
+                    <div class="empty-state">
+                        <i class="fas fa-futbol"></i>
+                        <h3>No Champions League Fixtures</h3>
+                        <p>Generate Champions League to see fixtures</p>
+                    </div>
+                </div>
+                <div class="download-section">
+                    <h3>Download Champions League Fixtures</h3>
+                    <div class="download-buttons">
+                        <button class="download-btn" id="download-champions-fixtures-pdf">
+                            <i class="fas fa-file-pdf"></i> Download as PDF
+                        </button>
+                        <button class="download-btn" id="download-champions-fixtures-csv">
                             <i class="fas fa-file-csv"></i> Download as CSV
                         </button>
                     </div>
@@ -1637,27 +1669,10 @@
                     <div id="group-tables"></div>
                 </div>
                 
-                <div class="card champions-league-card" id="champions-league-fixtures" style="display: none;">
-                    <h2 class="card-title champions-league-title">Champions League Fixtures</h2>
-                    <div class="champions-matchday-selector">
-                        <label for="champions-matchday-select">Select Matchday:</label>
-                        <select id="champions-matchday-select">
-                            <!-- Champions League matchday options will be populated here -->
-                        </select>
-                    </div>
-                    <div class="champions-fixtures-list" id="champions-fixtures">
-                        <div class="empty-state">
-                            <i class="fas fa-futbol"></i>
-                            <h3>No Champions League Fixtures</h3>
-                            <p>Generate Champions League to see fixtures</p>
-                        </div>
-                    </div>
+                <div class="card champions-league-card" id="champions-league-knockout" style="display: none;">
+                    <h2 class="card-title champions-league-title">Knockout Stage</h2>
+                    <div id="knockout-stage"></div>
                 </div>
-            </div>
-            
-            <div class="card champions-league-card" id="champions-league-knockout" style="display: none;">
-                <h2 class="card-title champions-league-title">Knockout Stage</h2>
-                <div id="knockout-stage"></div>
             </div>
             
             <div class="card champions-league-card" id="champions-league-summary" style="display: none;">
@@ -1797,7 +1812,7 @@
         const starsContainer = document.getElementById('stars-container');
         const registrationOptions = document.querySelectorAll('.registration-option');
         const leagueTypeSelect = document.getElementById('league-type');
-        const championsFixturesPanel = document.getElementById('champions-league-fixtures');
+        const championsFixturesPanel = document.getElementById('champions-fixtures');
         const championsMatchdaySelect = document.getElementById('champions-matchday-select');
         const championsFixtures = document.getElementById('champions-fixtures');
         const trophyCase = document.getElementById('trophy-case');
@@ -2443,11 +2458,8 @@
                         <p>Generate Champions League to see fixtures</p>
                     </div>
                 `;
-                championsFixturesPanel.style.display = 'none';
                 return;
             }
-            
-            championsFixturesPanel.style.display = 'block';
             
             // Populate matchday selector
             championsMatchdaySelect.innerHTML = '';
@@ -2948,6 +2960,16 @@
                 downloadAsPDF('champions', 'Champions League Report');
             });
             
+            // Champions League Fixtures PDF
+            document.getElementById('download-champions-fixtures-pdf').addEventListener('click', function() {
+                downloadAsPDF('champions-fixtures', 'Champions League Fixtures');
+            });
+            
+            // Champions League Fixtures CSV
+            document.getElementById('download-champions-fixtures-csv').addEventListener('click', function() {
+                downloadAsCSV('champions-fixtures');
+            });
+            
             // Archives PDF
             document.getElementById('download-archives-pdf').addEventListener('click', function() {
                 downloadAsPDF('archives', 'E-Football Archives');
@@ -2964,7 +2986,7 @@
             });
         }
         
-        // Download as PDF
+        // Download as PDF - FIXED VERSION
         function downloadAsPDF(type, title) {
             const { jsPDF } = window.jspdf;
             const doc = new jsPDF();
@@ -2990,6 +3012,9 @@
                     break;
                 case 'champions':
                     content = generateChampionsText();
+                    break;
+                case 'champions-fixtures':
+                    content = generateChampionsFixturesText();
                     break;
                 case 'archives':
                     content = generateArchivesText();
@@ -3027,6 +3052,10 @@
                     csvContent += generatePredictionsCSV();
                     filename = 'Match_Predictions.csv';
                     break;
+                case 'champions-fixtures':
+                    csvContent += generateChampionsFixturesCSV();
+                    filename = 'Champions_League_Fixtures.csv';
+                    break;
                 case 'teams':
                     csvContent += generateTeamsCSV();
                     filename = 'Teams_List.csv';
@@ -3061,6 +3090,45 @@
                         } else {
                             text += `${homeTeam.name} vs ${awayTeam.name}\n`;
                         }
+                    }
+                });
+                
+                text += '\n';
+            });
+            
+            return text;
+        }
+        
+        // Generate Champions League fixtures text for PDF
+        function generateChampionsFixturesText() {
+            let text = 'CHAMPIONS LEAGUE FIXTURES\n\n';
+            
+            // Group fixtures by matchday
+            const matchdays = {};
+            championsLeague.fixtures.forEach(fixture => {
+                if (!matchdays[fixture.matchday]) {
+                    matchdays[fixture.matchday] = [];
+                }
+                matchdays[fixture.matchday].push(fixture);
+            });
+            
+            // Sort matchdays
+            const sortedMatchdays = Object.keys(matchdays).sort((a, b) => a - b);
+            
+            sortedMatchdays.forEach(matchday => {
+                text += `MATCHDAY ${matchday}\n\n`;
+                
+                matchdays[matchday].forEach(fixture => {
+                    const homeTeam = teams.find(t => t.id === fixture.homeTeam);
+                    const awayTeam = teams.find(t => t.id === fixture.awayTeam);
+                    
+                    if (homeTeam && awayTeam) {
+                        if (fixture.completed) {
+                            text += `${homeTeam.name} ${fixture.homeScore} - ${fixture.awayScore} ${awayTeam.name}\n`;
+                        } else {
+                            text += `${homeTeam.name} vs ${awayTeam.name}\n`;
+                        }
+                        text += `Group: ${fixture.group || 'Knockout'}\n\n`;
                     }
                 });
                 
@@ -3217,6 +3285,26 @@
                         csv += `${fixture.matchday},${formatDate(new Date(fixture.date))},"${homeTeam.name}","${awayTeam.name}",${fixture.homeScore || ''},${fixture.awayScore || ''},${status}\n`;
                     }
                 });
+            });
+            
+            return csv;
+        }
+        
+        // Generate Champions League fixtures CSV
+        function generateChampionsFixturesCSV() {
+            let csv = 'Matchday,Date,Home Team,Away Team,Home Score,Away Score,Group,Status\n';
+            
+            // Sort fixtures by matchday
+            const sortedFixtures = [...championsLeague.fixtures].sort((a, b) => a.matchday - b.matchday);
+            
+            sortedFixtures.forEach(fixture => {
+                const homeTeam = teams.find(t => t.id === fixture.homeTeam);
+                const awayTeam = teams.find(t => t.id === fixture.awayTeam);
+                
+                if (homeTeam && awayTeam) {
+                    const status = fixture.completed ? 'Completed' : 'Scheduled';
+                    csv += `${fixture.matchday},${formatDate(new Date(fixture.date))},"${homeTeam.name}","${awayTeam.name}",${fixture.homeScore || ''},${fixture.awayScore || ''},${fixture.group || 'Knockout'},${status}\n`;
+                }
             });
             
             return csv;
@@ -4264,6 +4352,8 @@
             // Refresh data if needed
             if (tabId === 'fixtures') {
                 renderFixtures();
+            } else if (tabId === 'champions-fixtures') {
+                renderChampionsLeagueFixtures();
             } else if (tabId === 'results') {
                 renderResultsInput();
                 renderMatchHistory();
