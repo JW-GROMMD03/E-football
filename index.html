@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="icon" type="image/x-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚽</text></svg>">
     <style>
+        /* All your existing CSS remains the same */
         :root {
             --primary: #1a1a2e;
             --secondary: #00a8ff;
@@ -51,6 +52,218 @@
             z-index: -1;
         }
         
+        /* 3D Animation Styles */
+        .ball-container {
+            position: relative;
+            width: 100px;
+            height: 100px;
+            margin: 20px auto;
+            perspective: 800px;
+        }
+        
+        .spinning-ball {
+            width: 100px;
+            height: 100px;
+            position: relative;
+            transform-style: preserve-3d;
+            animation: spin 3s infinite linear;
+        }
+        
+        .ball {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background: radial-gradient(circle at 30% 30%, #ffffff, #bbbbbb, #555555);
+            position: absolute;
+            transform-style: preserve-3d;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+        }
+        
+        .ball-patch {
+            position: absolute;
+            background: #000000;
+            border-radius: 50%;
+        }
+        
+        .patch-1 { width: 20px; height: 20px; top: 20px; left: 20px; }
+        .patch-2 { width: 15px; height: 15px; top: 60px; left: 30px; }
+        .patch-3 { width: 18px; height: 18px; top: 40px; left: 60px; }
+        
+        @keyframes spin {
+            0% { transform: rotateY(0deg) rotateX(0deg); }
+            100% { transform: rotateY(360deg) rotateX(360deg); }
+        }
+        
+        .cup-container {
+            position: relative;
+            width: 150px;
+            height: 200px;
+            margin: 20px auto;
+            perspective: 1000px;
+        }
+        
+        .champions-cup {
+            width: 150px;
+            height: 200px;
+            position: relative;
+            transform-style: preserve-3d;
+            animation: cupAnimation 5s infinite ease-in-out;
+        }
+        
+        .cup-base {
+            width: 80px;
+            height: 20px;
+            background: linear-gradient(to right, #d4af37, #ffd700, #d4af37);
+            position: absolute;
+            bottom: 0;
+            left: 35px;
+            border-radius: 5px;
+        }
+        
+        .cup-stem {
+            width: 30px;
+            height: 100px;
+            background: linear-gradient(to right, #d4af37, #ffd700, #d4af37);
+            position: absolute;
+            bottom: 20px;
+            left: 60px;
+        }
+        
+        .cup-body {
+            width: 100px;
+            height: 80px;
+            background: linear-gradient(to right, #d4af37, #ffd700, #d4af37);
+            position: absolute;
+            bottom: 120px;
+            left: 25px;
+            border-radius: 50px 50px 0 0;
+        }
+        
+        .cup-handles {
+            width: 20px;
+            height: 60px;
+            background: linear-gradient(to bottom, #d4af37, #ffd700, #d4af37);
+            position: absolute;
+            bottom: 140px;
+            border-radius: 10px;
+        }
+        
+        .handle-left { left: 10px; }
+        .handle-right { right: 10px; }
+        
+        .stars-container {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+        }
+        
+        .star {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background: white;
+            border-radius: 50%;
+            animation: twinkle 2s infinite alternate;
+        }
+        
+        @keyframes twinkle {
+            0% { opacity: 0.2; transform: scale(0.8); }
+            100% { opacity: 1; transform: scale(1.2); }
+        }
+        
+        @keyframes cupAnimation {
+            0% { transform: translateY(0) rotateY(0deg); }
+            50% { transform: translateY(-20px) rotateY(180deg); }
+            100% { transform: translateY(0) rotateY(360deg); }
+        }
+        
+        /* Champions League specific styles */
+        .champions-league-card {
+            border-left: 5px solid gold;
+            background: linear-gradient(135deg, rgba(212, 175, 55, 0.1), rgba(26, 26, 46, 0.8));
+        }
+        
+        .champions-league-title {
+            color: gold;
+            text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+        }
+        
+        .group-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        .group-table th {
+            background: rgba(212, 175, 55, 0.2);
+            color: gold;
+            padding: 10px 12px;
+            text-align: left;
+            border-bottom: 2px solid rgba(255, 255, 255, 0.1);
+            font-size: 0.9rem;
+        }
+        
+        .group-table td {
+            padding: 10px 12px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            font-size: 0.9rem;
+        }
+        
+        .qualified {
+            background: rgba(46, 213, 115, 0.1);
+            border-left: 3px solid var(--success);
+        }
+        
+        .eliminated {
+            background: rgba(255, 71, 87, 0.1);
+            border-left: 3px solid var(--danger);
+        }
+        
+        .knockout-match {
+            background: rgba(212, 175, 55, 0.1);
+            border-left: 3px solid gold;
+            margin-bottom: 15px;
+            padding: 15px;
+            border-radius: 8px;
+        }
+        
+        .simulation-result {
+            margin-top: 10px;
+            padding: 10px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 5px;
+            font-size: 0.9rem;
+        }
+        
+        .simulation-detail {
+            margin-top: 5px;
+            font-style: italic;
+            color: var(--gray);
+        }
+        
+        .summary-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        
+        .summary-table th, .summary-table td {
+            padding: 10px 12px;
+            text-align: left;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .summary-table th {
+            background: rgba(26, 26, 46, 0.9);
+            color: var(--secondary);
+        }
+        
+        /* Rest of your existing CSS remains unchanged */
         .konami-animation {
             position: fixed;
             top: 0;
@@ -309,6 +522,15 @@
         
         .btn-success:hover {
             box-shadow: 0 5px 15px rgba(46, 213, 115, 0.4);
+        }
+        
+        .btn-gold {
+            background: linear-gradient(135deg, #d4af37, #ffd700);
+            color: var(--dark);
+        }
+        
+        .btn-gold:hover {
+            box-shadow: 0 5px 15px rgba(212, 175, 55, 0.4);
         }
         
         .team-list {
@@ -756,6 +978,74 @@
             color: var(--secondary);
         }
         
+        .analysis-panel {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .analysis-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        
+        .analysis-match {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .analysis-match:last-child {
+            border-bottom: none;
+        }
+        
+        .prediction-result {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .prediction-accuracy {
+            font-size: 0.9rem;
+            padding: 3px 8px;
+            border-radius: 10px;
+        }
+        
+        .accuracy-high {
+            background: rgba(46, 213, 115, 0.2);
+            color: var(--success);
+        }
+        
+        .accuracy-medium {
+            background: rgba(255, 165, 2, 0.2);
+            color: var(--warning);
+        }
+        
+        .accuracy-low {
+            background: rgba(255, 71, 87, 0.2);
+            color: var(--danger);
+        }
+        
+        .matchday-progress {
+            height: 8px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 4px;
+            overflow: hidden;
+            margin-top: 10px;
+        }
+        
+        .progress-completed {
+            height: 100%;
+            background: var(--success);
+            transition: width 0.5s ease;
+        }
+        
         @media (max-width: 768px) {
             .header-content {
                 flex-direction: column;
@@ -794,6 +1084,12 @@
                 width: 100%;
                 justify-content: center;
             }
+            
+            .analysis-match {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 10px;
+            }
         }
     </style>
 </head>
@@ -829,6 +1125,7 @@
             <div class="tab" data-tab="table">League Table</div>
             <div class="tab" data-tab="results">Results</div>
             <div class="tab" data-tab="analytics">Analytics</div>
+            <div class="tab" data-tab="champions-league">Champions League</div>
             <div class="tab" data-tab="archive">Prediction Archive</div>
         </div>
         
@@ -845,6 +1142,13 @@
                         <label for="team-strength">Collective Strength (3000+)</label>
                         <input type="number" id="team-strength" min="3000" placeholder="Enter strength (3000+)" required>
                     </div>
+                    <div class="form-group">
+                        <label for="league-type">League Type</label>
+                        <select id="league-type">
+                            <option value="e-football">E-football League</option>
+                            <option value="champions-league">PES Champions League</option>
+                        </select>
+                    </div>
                     <button type="submit">Add Team</button>
                 </form>
             </div>
@@ -859,7 +1163,8 @@
                     </div>
                 </div>
                 <div style="margin-top: 20px; display: flex; gap: 10px;">
-                    <button id="generate-fixtures" class="btn-secondary">Generate Fixtures</button>
+                    <button id="generate-fixtures" class="btn-secondary">Generate E-Football Fixtures</button>
+                    <button id="generate-champions-fixtures" class="btn-gold">Generate Champions League</button>
                     <button id="clear-teams" class="btn-danger">Clear All Teams</button>
                 </div>
             </div>
@@ -973,6 +1278,17 @@
             </div>
             
             <div class="card">
+                <h2 class="card-title">Matchday Analysis</h2>
+                <div id="matchday-analysis">
+                    <div class="empty-state">
+                        <i class="fas fa-chart-pie"></i>
+                        <h3>No Analysis Available</h3>
+                        <p>Complete matches to see analysis</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="card">
                 <h2 class="card-title">Team Performance Analytics</h2>
                 <div id="team-performance">
                     <div class="empty-state">
@@ -981,6 +1297,61 @@
                         <p>Add teams and play matches to see analytics</p>
                     </div>
                 </div>
+            </div>
+        </div>
+        
+        <!-- Champions League Tab -->
+        <div class="tab-content" id="champions-league">
+            <div class="card champions-league-card">
+                <h2 class="card-title champions-league-title">PES Champions League</h2>
+                <div class="ball-container">
+                    <div class="spinning-ball">
+                        <div class="ball">
+                            <div class="ball-patch patch-1"></div>
+                            <div class="ball-patch patch-2"></div>
+                            <div class="ball-patch patch-3"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="cup-container">
+                    <div class="champions-cup">
+                        <div class="cup-base"></div>
+                        <div class="cup-stem"></div>
+                        <div class="cup-body"></div>
+                        <div class="cup-handles handle-left"></div>
+                        <div class="cup-handles handle-right"></div>
+                        <div class="stars-container" id="stars-container"></div>
+                    </div>
+                </div>
+                <div style="margin-top: 20px; display: flex; gap: 10px;">
+                    <button id="simulate-champions-league" class="btn-gold">Simulate Champions League</button>
+                </div>
+            </div>
+            
+            <div class="card champions-league-card" id="champions-league-groups" style="display: none;">
+                <h2 class="card-title champions-league-title">Group Stage</h2>
+                <div id="group-tables"></div>
+            </div>
+            
+            <div class="card champions-league-card" id="champions-league-knockout" style="display: none;">
+                <h2 class="card-title champions-league-title">Knockout Stage</h2>
+                <div id="knockout-stage"></div>
+            </div>
+            
+            <div class="card champions-league-card" id="champions-league-summary" style="display: none;">
+                <h2 class="card-title champions-league-title">Tournament Summary</h2>
+                <table class="summary-table" id="champions-summary-table">
+                    <thead>
+                        <tr>
+                            <th>Team</th>
+                            <th>Stage Reached</th>
+                            <th>Eliminated By</th>
+                            <th>Reason for Exit</th>
+                        </tr>
+                    </thead>
+                    <tbody id="summary-table-body">
+                    </tbody>
+                </table>
             </div>
         </div>
         
@@ -1012,11 +1383,20 @@
         let konamiCode = [];
         const konamiSequence = ['ArrowUp', 'ArrowUp', 'ArrowDown', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'ArrowLeft', 'ArrowRight', 'KeyB', 'KeyA'];
         
+        // Champions League data
+        let championsLeague = {
+            teams: [],
+            groups: [],
+            knockout: [],
+            summary: []
+        };
+        
         // DOM Elements
         const teamForm = document.getElementById('team-form');
         const teamsList = document.getElementById('teams-list');
         const teamsCount = document.getElementById('teams-count');
         const generateFixturesBtn = document.getElementById('generate-fixtures');
+        const generateChampionsFixturesBtn = document.getElementById('generate-champions-fixtures');
         const clearTeamsBtn = document.getElementById('clear-teams');
         const currentMatchdayEl = document.getElementById('current-matchday');
         const matchdayCountdown = document.getElementById('matchday-countdown');
@@ -1028,6 +1408,7 @@
         const matchHistory = document.getElementById('match-history');
         const teamPerformance = document.getElementById('team-performance');
         const predictionsList = document.getElementById('predictions-list');
+        const matchdayAnalysis = document.getElementById('matchday-analysis');
         const predictionArchive = document.getElementById('prediction-archive');
         const notification = document.getElementById('notification');
         const tabs = document.querySelectorAll('.tab');
@@ -1036,6 +1417,14 @@
         const searchBtn = document.getElementById('search-btn');
         const searchResults = document.getElementById('search-results');
         const konamiAnimation = document.getElementById('konami-animation');
+        const simulateChampionsBtn = document.getElementById('simulate-champions-league');
+        const championsGroups = document.getElementById('champions-league-groups');
+        const championsKnockout = document.getElementById('champions-league-knockout');
+        const championsSummary = document.getElementById('champions-league-summary');
+        const groupTables = document.getElementById('group-tables');
+        const knockoutStage = document.getElementById('knockout-stage');
+        const summaryTableBody = document.getElementById('summary-table-body');
+        const starsContainer = document.getElementById('stars-container');
         
         // Initialize data from localStorage
         function initializeData() {
@@ -1063,6 +1452,10 @@
                 matchdays = JSON.parse(localStorage.getItem('matchdays'));
             }
             
+            if (localStorage.getItem('championsLeague')) {
+                championsLeague = JSON.parse(localStorage.getItem('championsLeague'));
+            }
+            
             renderTeams();
             updateMatchdays();
             renderFixtures();
@@ -1071,8 +1464,17 @@
             renderMatchHistory();
             renderTeamPerformance();
             renderPredictions();
+            renderMatchdayAnalysis();
             renderPredictionArchive();
             startCountdown();
+            createStars();
+            
+            // Show champions league data if available
+            if (championsLeague.teams.length > 0) {
+                renderChampionsLeagueGroups();
+                renderChampionsLeagueKnockout();
+                renderChampionsLeagueSummary();
+            }
         }
         
         // Save data to localStorage
@@ -1083,6 +1485,7 @@
             localStorage.setItem('predictions', JSON.stringify(predictions));
             localStorage.setItem('currentMatchday', currentMatchday.toString());
             localStorage.setItem('matchdays', JSON.stringify(matchdays));
+            localStorage.setItem('championsLeague', JSON.stringify(championsLeague));
         }
         
         // Show notification
@@ -1102,6 +1505,7 @@
             
             const name = document.getElementById('team-name').value;
             const strength = parseInt(document.getElementById('team-strength').value);
+            const leagueType = document.getElementById('league-type').value;
             
             if (strength < 3000) {
                 showNotification('Team strength must be 3000 or higher!', 'danger');
@@ -1117,6 +1521,7 @@
                 id: teams.length > 0 ? Math.max(...teams.map(t => t.id)) + 1 : 1,
                 name: name,
                 strength: strength,
+                leagueType: leagueType,
                 played: 0,
                 wins: 0,
                 draws: 0,
@@ -1158,7 +1563,7 @@
                 teamCard.innerHTML = `
                     <div>
                         <div class="team-name">${team.name}</div>
-                        <div class="match-date">Strength: ${team.strength.toLocaleString()}</div>
+                        <div class="match-date">Strength: ${team.strength.toLocaleString()} • ${team.leagueType === 'champions-league' ? 'Champions League' : 'E-Football'}</div>
                         <div class="team-actions">
                             <button class="btn-secondary edit-team" data-team="${team.id}">Edit</button>
                             <button class="btn-danger delete-team" data-team="${team.id}">Delete</button>
@@ -1234,6 +1639,7 @@
                 renderMatchHistory();
                 renderTeamPerformance();
                 renderPredictions();
+                renderMatchdayAnalysis();
                 renderPredictionArchive();
                 
                 showNotification(`Team ${team.name} deleted successfully!`);
@@ -1254,6 +1660,12 @@
                 predictions = [];
                 currentMatchday = 1;
                 matchdays = [];
+                championsLeague = {
+                    teams: [],
+                    groups: [],
+                    knockout: [],
+                    summary: []
+                };
                 saveData();
                 renderTeams();
                 updateMatchdays();
@@ -1263,6 +1675,7 @@
                 renderMatchHistory();
                 renderTeamPerformance();
                 renderPredictions();
+                renderMatchdayAnalysis();
                 renderPredictionArchive();
                 showNotification('All teams, fixtures, and results cleared!');
             }
@@ -1282,10 +1695,29 @@
             renderResultsInput();
             renderPredictions();
             
-            showNotification('Fixtures generated successfully!');
+            showNotification('E-Football League fixtures generated successfully!');
             
             // Switch to fixtures tab
             switchTab('fixtures');
+        });
+        
+        // Generate Champions League
+        generateChampionsFixturesBtn.addEventListener('click', function() {
+            const championsTeams = teams.filter(team => team.leagueType === 'champions-league');
+            
+            if (championsTeams.length !== 16) {
+                showNotification('Champions League requires exactly 16 teams!', 'danger');
+                return;
+            }
+            
+            championsLeague.teams = [...championsTeams];
+            generateChampionsLeagueGroups();
+            saveData();
+            
+            showNotification('Champions League groups generated! Click "Simulate Champions League" to run the tournament.');
+            
+            // Switch to champions league tab
+            switchTab('champions-league');
         });
         
         function generateFixtures() {
@@ -1344,6 +1776,543 @@
             }
             
             currentMatchday = 1;
+        }
+        
+        // Generate Champions League groups
+        function generateChampionsLeagueGroups() {
+            championsLeague.groups = [];
+            
+            // Shuffle teams randomly
+            const shuffledTeams = [...championsLeague.teams].sort(() => 0.5 - Math.random());
+            
+            // Create 4 groups of 4 teams
+            for (let i = 0; i < 4; i++) {
+                const groupTeams = shuffledTeams.slice(i * 4, (i + 1) * 4);
+                
+                // Initialize group standings
+                const group = {
+                    name: `Group ${String.fromCharCode(65 + i)}`,
+                    teams: groupTeams.map(team => ({
+                        ...team,
+                        played: 0,
+                        wins: 0,
+                        draws: 0,
+                        losses: 0,
+                        goalsFor: 0,
+                        goalsAgainst: 0,
+                        goalDifference: 0,
+                        points: 0
+                    })),
+                    matches: []
+                };
+                
+                // Generate fixtures for the group (home and away)
+                for (let j = 0; j < groupTeams.length; j++) {
+                    for (let k = j + 1; k < groupTeams.length; k++) {
+                        // Home match
+                        group.matches.push({
+                            homeTeam: groupTeams[j].id,
+                            awayTeam: groupTeams[k].id,
+                            homeScore: null,
+                            awayScore: null,
+                            completed: false
+                        });
+                        
+                        // Away match
+                        group.matches.push({
+                            homeTeam: groupTeams[k].id,
+                            awayTeam: groupTeams[j].id,
+                            homeScore: null,
+                            awayScore: null,
+                            completed: false
+                        });
+                    }
+                }
+                
+                championsLeague.groups.push(group);
+            }
+            
+            renderChampionsLeagueGroups();
+        }
+        
+        // Render Champions League groups
+        function renderChampionsLeagueGroups() {
+            groupTables.innerHTML = '';
+            
+            if (championsLeague.groups.length === 0) {
+                groupTables.innerHTML = `
+                    <div class="empty-state">
+                        <i class="fas fa-trophy"></i>
+                        <h3>No Champions League Groups</h3>
+                        <p>Add 16 teams to the Champions League and generate groups</p>
+                    </div>
+                `;
+                championsGroups.style.display = 'none';
+                return;
+            }
+            
+            championsGroups.style.display = 'block';
+            
+            championsLeague.groups.forEach(group => {
+                const groupCard = document.createElement('div');
+                groupCard.className = 'card champions-league-card';
+                groupCard.innerHTML = `
+                    <h3 class="champions-league-title">${group.name}</h3>
+                    <table class="group-table">
+                        <thead>
+                            <tr>
+                                <th>Team</th>
+                                <th>P</th>
+                                <th>W</th>
+                                <th>D</th>
+                                <th>L</th>
+                                <th>GF</th>
+                                <th>GA</th>
+                                <th>GD</th>
+                                <th>Pts</th>
+                            </tr>
+                        </thead>
+                        <tbody id="group-${group.name}-body">
+                        </tbody>
+                    </table>
+                `;
+                
+                groupTables.appendChild(groupCard);
+                
+                // Sort teams by points, goal difference, goals for
+                const sortedTeams = [...group.teams].sort((a, b) => {
+                    if (b.points !== a.points) return b.points - a.points;
+                    if (b.goalDifference !== a.goalDifference) return b.goalDifference - a.goalDifference;
+                    return b.goalsFor - a.goalsFor;
+                });
+                
+                const groupBody = document.getElementById(`group-${group.name}-body`);
+                
+                sortedTeams.forEach((team, index) => {
+                    const row = document.createElement('tr');
+                    const rowClass = index < 2 ? 'qualified' : 'eliminated';
+                    
+                    row.className = rowClass;
+                    row.innerHTML = `
+                        <td>${team.name}</td>
+                        <td>${team.played}</td>
+                        <td>${team.wins}</td>
+                        <td>${team.draws}</td>
+                        <td>${team.losses}</td>
+                        <td>${team.goalsFor}</td>
+                        <td>${team.goalsAgainst}</td>
+                        <td>${team.goalDifference > 0 ? '+' : ''}${team.goalDifference}</td>
+                        <td><strong>${team.points}</strong></td>
+                    `;
+                    
+                    groupBody.appendChild(row);
+                });
+            });
+        }
+        
+        // Simulate Champions League
+        simulateChampionsBtn.addEventListener('click', function() {
+            if (championsLeague.groups.length === 0) {
+                showNotification('No Champions League groups to simulate!', 'danger');
+                return;
+            }
+            
+            // Simulate group stage
+            simulateGroupStage();
+            
+            // Generate knockout stage
+            generateKnockoutStage();
+            
+            // Simulate knockout stage
+            simulateKnockoutStage();
+            
+            saveData();
+            
+            showNotification('Champions League simulation completed!', 'success');
+        });
+        
+        // Simulate group stage matches
+        function simulateGroupStage() {
+            championsLeague.groups.forEach(group => {
+                group.matches.forEach(match => {
+                    if (!match.completed) {
+                        const homeTeam = group.teams.find(t => t.id === match.homeTeam);
+                        const awayTeam = group.teams.find(t => t.id === match.awayTeam);
+                        
+                        if (homeTeam && awayTeam) {
+                            // Simulate match result based on team strengths
+                            const homeAdvantage = 1.15;
+                            const homeStrength = homeTeam.strength * homeAdvantage;
+                            const awayStrength = awayTeam.strength;
+                            
+                            // Calculate expected goals
+                            const homeExpected = (homeStrength / (homeStrength + awayStrength)) * 3;
+                            const awayExpected = (awayStrength / (homeStrength + awayStrength)) * 2;
+                            
+                            // Generate actual goals with some randomness
+                            const homeGoals = Math.max(0, Math.round(homeExpected + (Math.random() - 0.5) * 2));
+                            const awayGoals = Math.max(0, Math.round(awayExpected + (Math.random() - 0.5) * 2));
+                            
+                            // Update match result
+                            match.homeScore = homeGoals;
+                            match.awayScore = awayGoals;
+                            match.completed = true;
+                            
+                            // Update team stats
+                            homeTeam.played++;
+                            awayTeam.played++;
+                            
+                            homeTeam.goalsFor += homeGoals;
+                            homeTeam.goalsAgainst += awayGoals;
+                            awayTeam.goalsFor += awayGoals;
+                            awayTeam.goalsAgainst += homeGoals;
+                            
+                            homeTeam.goalDifference = homeTeam.goalsFor - homeTeam.goalsAgainst;
+                            awayTeam.goalDifference = awayTeam.goalsFor - awayTeam.goalsAgainst;
+                            
+                            if (homeGoals > awayGoals) {
+                                homeTeam.wins++;
+                                awayTeam.losses++;
+                                homeTeam.points += 3;
+                            } else if (homeGoals < awayGoals) {
+                                homeTeam.losses++;
+                                awayTeam.wins++;
+                                awayTeam.points += 3;
+                            } else {
+                                homeTeam.draws++;
+                                awayTeam.draws++;
+                                homeTeam.points += 1;
+                                awayTeam.points += 1;
+                            }
+                        }
+                    }
+                });
+            });
+            
+            renderChampionsLeagueGroups();
+        }
+        
+        // Generate knockout stage
+        function generateKnockoutStage() {
+            championsLeague.knockout = [];
+            
+            // Get qualified teams (top 2 from each group)
+            const qualifiedTeams = [];
+            championsLeague.groups.forEach(group => {
+                const sortedTeams = [...group.teams].sort((a, b) => {
+                    if (b.points !== a.points) return b.points - a.points;
+                    if (b.goalDifference !== a.goalDifference) return b.goalDifference - a.goalDifference;
+                    return b.goalsFor - a.goalsFor;
+                });
+                
+                qualifiedTeams.push(sortedTeams[0], sortedTeams[1]);
+            });
+            
+            // Shuffle qualified teams for random draw
+            const shuffledQualified = [...qualifiedTeams].sort(() => 0.5 - Math.random());
+            
+            // Create round of 16 matches
+            const roundOf16 = [];
+            for (let i = 0; i < 8; i++) {
+                roundOf16.push({
+                    match: i + 1,
+                    homeTeam: shuffledQualified[i * 2],
+                    awayTeam: shuffledQualified[i * 2 + 1],
+                    homeScore: null,
+                    awayScore: null,
+                    extraTime: null,
+                    penalties: null,
+                    winner: null,
+                    loser: null,
+                    reason: ''
+                });
+            }
+            
+            championsLeague.knockout.push({
+                stage: 'Round of 16',
+                matches: roundOf16
+            });
+            
+            renderChampionsLeagueKnockout();
+        }
+        
+        // Render Champions League knockout stage
+        function renderChampionsLeagueKnockout() {
+            knockoutStage.innerHTML = '';
+            
+            if (championsLeague.knockout.length === 0) {
+                knockoutStage.innerHTML = `
+                    <div class="empty-state">
+                        <i class="fas fa-trophy"></i>
+                        <h3>No Knockout Stage</h3>
+                        <p>Complete group stage to generate knockout matches</p>
+                    </div>
+                `;
+                championsKnockout.style.display = 'none';
+                return;
+            }
+            
+            championsKnockout.style.display = 'block';
+            
+            championsLeague.knockout.forEach(round => {
+                const roundCard = document.createElement('div');
+                roundCard.className = 'card champions-league-card';
+                roundCard.innerHTML = `<h3 class="champions-league-title">${round.stage}</h3>`;
+                
+                round.matches.forEach(match => {
+                    const matchCard = document.createElement('div');
+                    matchCard.className = 'knockout-match';
+                    
+                    if (match.winner) {
+                        matchCard.innerHTML = `
+                            <div class="match-teams">
+                                <span class="team-name">${match.homeTeam.name}</span>
+                                <span class="vs">${match.homeScore} - ${match.awayScore}</span>
+                                <span class="team-name">${match.awayTeam.name}</span>
+                            </div>
+                            <div class="simulation-result">
+                                <strong>Winner: ${match.winner.name}</strong>
+                                <div class="simulation-detail">${match.reason}</div>
+                                ${match.extraTime ? `<div class="simulation-detail">After extra time: ${match.extraTime.homeScore} - ${match.extraTime.awayScore}</div>` : ''}
+                                ${match.penalties ? `<div class="simulation-detail">Penalties: ${match.penalties.homeScore} - ${match.penalties.awayScore}</div>` : ''}
+                            </div>
+                        `;
+                    } else {
+                        matchCard.innerHTML = `
+                            <div class="match-teams">
+                                <span class="team-name">${match.homeTeam.name}</span>
+                                <span class="vs">vs</span>
+                                <span class="team-name">${match.awayTeam.name}</span>
+                            </div>
+                            <div class="simulation-result">
+                                <em>Match not played yet</em>
+                            </div>
+                        `;
+                    }
+                    
+                    roundCard.appendChild(matchCard);
+                });
+                
+                knockoutStage.appendChild(roundCard);
+            });
+        }
+        
+        // Simulate knockout stage
+        function simulateKnockoutStage() {
+            championsLeague.summary = [];
+            
+            // Initialize summary with all teams
+            championsLeague.teams.forEach(team => {
+                championsLeague.summary.push({
+                    team: team.name,
+                    stage: 'Group Stage',
+                    eliminatedBy: '',
+                    reason: ''
+                });
+            });
+            
+            // Simulate each round
+            for (let i = 0; i < championsLeague.knockout.length; i++) {
+                const round = championsLeague.knockout[i];
+                const nextRoundTeams = [];
+                
+                round.matches.forEach(match => {
+                    const homeTeam = match.homeTeam;
+                    const awayTeam = match.awayTeam;
+                    
+                    // Simulate match result
+                    const homeAdvantage = 1.15;
+                    const homeStrength = homeTeam.strength * homeAdvantage;
+                    const awayStrength = awayTeam.strength;
+                    
+                    // Calculate expected goals
+                    const homeExpected = (homeStrength / (homeStrength + awayStrength)) * 2.5;
+                    const awayExpected = (awayStrength / (homeStrength + awayStrength)) * 2;
+                    
+                    // Generate actual goals with some randomness
+                    let homeGoals = Math.max(0, Math.round(homeExpected + (Math.random() - 0.5) * 2));
+                    let awayGoals = Math.max(0, Math.round(awayExpected + (Math.random() - 0.5) * 2));
+                    
+                    // Check for extra time
+                    let extraTime = null;
+                    let penalties = null;
+                    
+                    if (homeGoals === awayGoals) {
+                        // Extra time
+                        homeGoals += Math.max(0, Math.round((Math.random() - 0.3) * 1.5));
+                        awayGoals += Math.max(0, Math.round((Math.random() - 0.3) * 1.5));
+                        
+                        extraTime = {
+                            homeScore: homeGoals - match.homeScore,
+                            awayScore: awayGoals - match.awayScore
+                        };
+                        
+                        // If still tied, penalties
+                        if (homeGoals === awayGoals) {
+                            const homePenalties = Math.floor(Math.random() * 5) + 3;
+                            const awayPenalties = Math.floor(Math.random() * 5) + 3;
+                            
+                            // Ensure one team wins
+                            if (homePenalties === awayPenalties) {
+                                homeGoals = homePenalties + 1;
+                                awayGoals = awayPenalties;
+                            } else {
+                                homeGoals = Math.max(homePenalties, awayPenalties);
+                                awayGoals = Math.min(homePenalties, awayPenalties);
+                            }
+                            
+                            penalties = {
+                                homeScore: homePenalties,
+                                awayScore: awayPenalties
+                            };
+                        }
+                    }
+                    
+                    // Update match result
+                    match.homeScore = homeGoals;
+                    match.awayScore = awayGoals;
+                    match.extraTime = extraTime;
+                    match.penalties = penalties;
+                    
+                    // Determine winner
+                    if (homeGoals > awayGoals) {
+                        match.winner = homeTeam;
+                        match.loser = awayTeam;
+                        match.reason = `${awayTeam.name}'s defense collapsed in the second half`;
+                    } else {
+                        match.winner = awayTeam;
+                        match.loser = homeTeam;
+                        match.reason = `${homeTeam.name}'s tactics failed to break down the opposition`;
+                    }
+                    
+                    // Add details for extra time or penalties
+                    if (extraTime) {
+                        match.reason += `, requiring extra time`;
+                    }
+                    if (penalties) {
+                        match.reason += ` and eventually losing on penalties`;
+                    }
+                    
+                    // Update summary
+                    const loserSummary = championsLeague.summary.find(s => s.team === match.loser.name);
+                    if (loserSummary) {
+                        loserSummary.stage = round.stage;
+                        loserSummary.eliminatedBy = match.winner.name;
+                        loserSummary.reason = match.reason;
+                    }
+                    
+                    nextRoundTeams.push(match.winner);
+                });
+                
+                // Generate next round if not the final
+                if (nextRoundTeams.length > 1) {
+                    let nextStage;
+                    let nextMatches = [];
+                    
+                    if (nextRoundTeams.length === 8) {
+                        nextStage = 'Quarter-finals';
+                        for (let i = 0; i < 4; i++) {
+                            nextMatches.push({
+                                match: i + 1,
+                                homeTeam: nextRoundTeams[i * 2],
+                                awayTeam: nextRoundTeams[i * 2 + 1],
+                                homeScore: null,
+                                awayScore: null,
+                                extraTime: null,
+                                penalties: null,
+                                winner: null,
+                                loser: null,
+                                reason: ''
+                            });
+                        }
+                    } else if (nextRoundTeams.length === 4) {
+                        nextStage = 'Semi-finals';
+                        for (let i = 0; i < 2; i++) {
+                            nextMatches.push({
+                                match: i + 1,
+                                homeTeam: nextRoundTeams[i * 2],
+                                awayTeam: nextRoundTeams[i * 2 + 1],
+                                homeScore: null,
+                                awayScore: null,
+                                extraTime: null,
+                                penalties: null,
+                                winner: null,
+                                loser: null,
+                                reason: ''
+                            });
+                        }
+                    } else if (nextRoundTeams.length === 2) {
+                        nextStage = 'Final';
+                        nextMatches.push({
+                            match: 1,
+                            homeTeam: nextRoundTeams[0],
+                            awayTeam: nextRoundTeams[1],
+                            homeScore: null,
+                            awayScore: null,
+                            extraTime: null,
+                            penalties: null,
+                            winner: null,
+                            loser: null,
+                            reason: ''
+                        });
+                    }
+                    
+                    if (nextStage) {
+                        championsLeague.knockout.push({
+                            stage: nextStage,
+                            matches: nextMatches
+                        });
+                    }
+                } else if (nextRoundTeams.length === 1) {
+                    // Champion found
+                    const champion = nextRoundTeams[0];
+                    const championSummary = championsLeague.summary.find(s => s.team === champion.name);
+                    if (championSummary) {
+                        championSummary.stage = 'Champion';
+                        championSummary.eliminatedBy = '';
+                        championSummary.reason = '';
+                    }
+                }
+            }
+            
+            renderChampionsLeagueKnockout();
+            renderChampionsLeagueSummary();
+        }
+        
+        // Render Champions League summary
+        function renderChampionsLeagueSummary() {
+            summaryTableBody.innerHTML = '';
+            
+            if (championsLeague.summary.length === 0) {
+                championsSummary.style.display = 'none';
+                return;
+            }
+            
+            championsSummary.style.display = 'block';
+            
+            championsLeague.summary.forEach(team => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${team.team}</td>
+                    <td>${team.stage}</td>
+                    <td>${team.eliminatedBy}</td>
+                    <td>${team.reason}</td>
+                `;
+                
+                summaryTableBody.appendChild(row);
+            });
+        }
+        
+        // Create stars for Champions League animation
+        function createStars() {
+            for (let i = 0; i < 50; i++) {
+                const star = document.createElement('div');
+                star.className = 'star';
+                star.style.left = `${Math.random() * 100}%`;
+                star.style.top = `${Math.random() * 100}%`;
+                star.style.animationDelay = `${Math.random() * 2}s`;
+                starsContainer.appendChild(star);
+            }
         }
         
         // Update matchdays dropdown
@@ -1503,22 +2472,43 @@
                 
                 const fixtureCard = document.createElement('div');
                 fixtureCard.className = 'fixture-card';
-                fixtureCard.innerHTML = `
-                    <div class="match-teams">
-                        <div class="team-badge">${homeTeam.name.substring(0, 2).toUpperCase()}</div>
-                        <span class="team-name">${homeTeam.name}</span>
-                        <span class="vs">vs</span>
-                        <span class="team-name">${awayTeam.name}</span>
-                        <div class="team-badge">${awayTeam.name.substring(0, 2).toUpperCase()}</div>
-                    </div>
-                    <div class="match-date">${formatDate(new Date(fixture.date))}</div>
-                    <div class="result-input">
-                        <input type="number" min="0" id="home-score-${fixture.id}" placeholder="0">
-                        <span>-</span>
-                        <input type="number" min="0" id="away-score-${fixture.id}" placeholder="0">
-                        <button class="btn-success save-result" data-fixture="${fixture.id}">Save</button>
-                    </div>
-                `;
+                
+                // Check if match is today or in the past
+                const fixtureDate = new Date(fixture.date);
+                const today = new Date();
+                today.setHours(0, 0, 0, 0);
+                const isTodayOrPast = fixtureDate <= today;
+                
+                if (isTodayOrPast) {
+                    fixtureCard.innerHTML = `
+                        <div class="match-teams">
+                            <div class="team-badge">${homeTeam.name.substring(0, 2).toUpperCase()}</div>
+                            <span class="team-name">${homeTeam.name}</span>
+                            <span class="vs">vs</span>
+                            <span class="team-name">${awayTeam.name}</span>
+                            <div class="team-badge">${awayTeam.name.substring(0, 2).toUpperCase()}</div>
+                        </div>
+                        <div class="match-date">${formatDate(new Date(fixture.date))}</div>
+                        <div class="result-input">
+                            <input type="number" min="0" id="home-score-${fixture.id}" placeholder="0">
+                            <span>-</span>
+                            <input type="number" min="0" id="away-score-${fixture.id}" placeholder="0">
+                            <button class="btn-success save-result" data-fixture="${fixture.id}">Save</button>
+                        </div>
+                    `;
+                } else {
+                    fixtureCard.innerHTML = `
+                        <div class="match-teams">
+                            <div class="team-badge">${homeTeam.name.substring(0, 2).toUpperCase()}</div>
+                            <span class="team-name">${homeTeam.name}</span>
+                            <span class="vs">vs</span>
+                            <span class="team-name">${awayTeam.name}</span>
+                            <div class="team-badge">${awayTeam.name.substring(0, 2).toUpperCase()}</div>
+                        </div>
+                        <div class="match-date">${formatDate(new Date(fixture.date))}</div>
+                        <div class="match-status status-pending">Future Match</div>
+                    `;
+                }
                 
                 resultsList.appendChild(fixtureCard);
             });
@@ -1573,7 +2563,7 @@
             awayTeam.goalsFor += awayScore;
             awayTeam.goalsAgainst += homeScore;
             
-            // Update goal difference
+            // Update goal difference (properly handling negative values)
             homeTeam.goalDifference = homeTeam.goalsFor - homeTeam.goalsAgainst;
             awayTeam.goalDifference = awayTeam.goalsFor - awayTeam.goalsAgainst;
             
@@ -1626,6 +2616,12 @@
                 
                 prediction.actualOutcome = actualOutcome;
                 prediction.correct = prediction.predictedOutcome === actualOutcome;
+                
+                // Calculate prediction accuracy percentage
+                const maxConfidence = Math.max(prediction.homeWin, prediction.draw, prediction.awayWin);
+                const actualConfidence = actualOutcome === 'home' ? prediction.homeWin : 
+                                       actualOutcome === 'draw' ? prediction.draw : prediction.awayWin;
+                prediction.accuracy = Math.round((actualConfidence / maxConfidence) * 100);
             }
             
             saveData();
@@ -1634,6 +2630,7 @@
             renderTable();
             renderTeamPerformance();
             renderPredictions();
+            renderMatchdayAnalysis();
             renderPredictionArchive();
             
             showNotification('Result saved successfully!');
@@ -1769,6 +2766,7 @@
             if (prediction) {
                 prediction.actualOutcome = null;
                 prediction.correct = null;
+                prediction.accuracy = null;
             }
             
             saveData();
@@ -1777,6 +2775,7 @@
             renderTable();
             renderTeamPerformance();
             renderPredictions();
+            renderMatchdayAnalysis();
             renderPredictionArchive();
             
             showNotification('Result removed. You can now enter the correct result.', 'warning');
@@ -1970,10 +2969,10 @@
             saveData();
         }
         
-        // Calculate prediction percentages
+        // Advanced prediction algorithm
         function calculatePrediction(homeTeam, awayTeam) {
             // Base prediction on team strength with home advantage
-            const homeAdvantage = 1.1; // 10% home advantage
+            const homeAdvantage = 1.15; // 15% home advantage
             const adjustedHomeStrength = homeTeam.strength * homeAdvantage;
             const totalStrength = adjustedHomeStrength + awayTeam.strength;
             
@@ -1987,16 +2986,30 @@
             homeWin *= homeForm;
             awayWin *= awayForm;
             
+            // Adjust based on goal difference performance
+            const homeGDFactor = calculateGDFactor(homeTeam);
+            const awayGDFactor = calculateGDFactor(awayTeam);
+            
+            homeWin *= homeGDFactor;
+            awayWin *= awayGDFactor;
+            
             // Normalize to 100%
             const total = homeWin + awayWin;
             homeWin = (homeWin / total) * 100;
             awayWin = (awayWin / total) * 100;
             
-            // Draw probability (based on how close the teams are in strength)
+            // Draw probability (advanced calculation)
             const strengthDiff = Math.abs(homeTeam.strength - awayTeam.strength);
             const maxStrength = Math.max(homeTeam.strength, awayTeam.strength);
             const drawFactor = 1 - (strengthDiff / maxStrength);
-            const draw = 20 * drawFactor; // Base draw chance of 20% multiplied by closeness factor
+            
+            // Consider both teams' tendency to draw
+            const homeDrawTendency = homeTeam.played > 0 ? homeTeam.draws / homeTeam.played : 0.2;
+            const awayDrawTendency = awayTeam.played > 0 ? awayTeam.draws / awayTeam.played : 0.2;
+            const avgDrawTendency = (homeDrawTendency + awayDrawTendency) / 2;
+            
+            // Base draw chance with multiple factors
+            let draw = (25 * drawFactor + 15 * avgDrawTendency) / 2;
             
             // Adjust win percentages for draw probability
             homeWin = homeWin * (1 - (draw / 100));
@@ -2047,13 +3060,102 @@
             const recentMatches = team.form.slice(-5);
             
             recentMatches.forEach(result => {
-                if (result === 'W') form += 0.05;
-                else if (result === 'L') form -= 0.05;
-                // Draws don't affect form in this model
+                if (result === 'W') form += 0.06;
+                else if (result === 'L') form -= 0.06;
+                // Draws slightly improve form
+                else if (result === 'D') form += 0.02;
             });
             
-            // Cap form between 0.8 and 1.2
-            return Math.max(0.8, Math.min(1.2, form));
+            // Cap form between 0.7 and 1.3
+            return Math.max(0.7, Math.min(1.3, form));
+        }
+        
+        // Calculate goal difference factor
+        function calculateGDFactor(team) {
+            if (team.played === 0) return 1.0;
+            
+            const avgGD = team.goalDifference / team.played;
+            
+            // Positive GD improves factor, negative reduces it
+            if (avgGD > 1) return 1.1;
+            if (avgGD > 0.5) return 1.05;
+            if (avgGD > 0) return 1.02;
+            if (avgGD > -0.5) return 0.98;
+            if (avgGD > -1) return 0.95;
+            return 0.9;
+        }
+        
+        // Render matchday analysis
+        function renderMatchdayAnalysis() {
+            matchdayAnalysis.innerHTML = '';
+            
+            const currentMatchdayFixtures = fixtures.filter(f => f.matchday === currentMatchday);
+            
+            if (currentMatchdayFixtures.length === 0) {
+                matchdayAnalysis.innerHTML = `
+                    <div class="empty-state">
+                        <i class="fas fa-chart-pie"></i>
+                        <h3>No Analysis Available</h3>
+                        <p>Complete matches to see analysis</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            const completedFixtures = currentMatchdayFixtures.filter(f => f.completed);
+            const totalFixtures = currentMatchdayFixtures.length;
+            const completionPercentage = Math.round((completedFixtures.length / totalFixtures) * 100);
+            
+            const analysisPanel = document.createElement('div');
+            analysisPanel.className = 'analysis-panel';
+            analysisPanel.innerHTML = `
+                <div class="analysis-header">
+                    <h3>Matchday ${currentMatchday} Analysis</h3>
+                    <div>Completion: ${completionPercentage}%</div>
+                </div>
+                <div class="matchday-progress">
+                    <div class="progress-completed" style="width: ${completionPercentage}%"></div>
+                </div>
+            `;
+            
+            matchdayAnalysis.appendChild(analysisPanel);
+            
+            // Add analysis for each completed match
+            completedFixtures.forEach(fixture => {
+                const homeTeam = teams.find(t => t.id === fixture.homeTeam);
+                const awayTeam = teams.find(t => t.id === fixture.awayTeam);
+                const prediction = predictions.find(p => p.fixtureId === fixture.id);
+                
+                if (!homeTeam || !awayTeam || !prediction) return;
+                
+                const actualOutcome = fixture.homeScore > fixture.awayScore ? 'home' : 
+                                    fixture.homeScore < fixture.awayScore ? 'away' : 'draw';
+                
+                const isCorrect = prediction.predictedOutcome === actualOutcome;
+                const accuracyClass = prediction.accuracy >= 70 ? 'accuracy-high' : 
+                                    prediction.accuracy >= 50 ? 'accuracy-medium' : 'accuracy-low';
+                
+                const analysisMatch = document.createElement('div');
+                analysisMatch.className = 'analysis-match';
+                analysisMatch.innerHTML = `
+                    <div class="match-teams">
+                        <div class="team-badge">${homeTeam.name.substring(0, 2).toUpperCase()}</div>
+                        <span class="team-name">${homeTeam.name}</span>
+                        <span class="vs">${fixture.homeScore} - ${fixture.awayScore}</span>
+                        <span class="team-name">${awayTeam.name}</span>
+                        <div class="team-badge">${awayTeam.name.substring(0, 2).toUpperCase()}</div>
+                    </div>
+                    <div class="prediction-result">
+                        <div>Predicted: <strong>${prediction.predictedOutcome}</strong></div>
+                        <div class="prediction-accuracy ${accuracyClass}">${prediction.accuracy}% accuracy</div>
+                        <div class="prediction-outcome ${isCorrect ? 'correct' : 'incorrect'}">
+                            ${isCorrect ? 'Correct' : 'Incorrect'}
+                        </div>
+                    </div>
+                `;
+                
+                matchdayAnalysis.appendChild(analysisMatch);
+            });
         }
         
         // Render prediction archive
@@ -2079,6 +3181,24 @@
             // Sort by date (newest first)
             completedPredictions.sort((a, b) => new Date(b.date) - new Date(a.date));
             
+            // Calculate overall prediction accuracy
+            const correctPredictions = completedPredictions.filter(p => p.correct).length;
+            const overallAccuracy = Math.round((correctPredictions / completedPredictions.length) * 100);
+            
+            const archiveHeader = document.createElement('div');
+            archiveHeader.className = 'analysis-panel';
+            archiveHeader.innerHTML = `
+                <div class="analysis-header">
+                    <h3>Prediction Performance</h3>
+                    <div>Overall Accuracy: ${overallAccuracy}%</div>
+                </div>
+                <div class="matchday-progress">
+                    <div class="progress-completed" style="width: ${overallAccuracy}%"></div>
+                </div>
+            `;
+            
+            predictionArchive.appendChild(archiveHeader);
+            
             completedPredictions.forEach(prediction => {
                 const fixture = fixtures.find(f => f.id === prediction.fixtureId);
                 if (!fixture) return;
@@ -2093,6 +3213,8 @@
                 
                 const outcomeClass = prediction.correct ? 'correct' : 'incorrect';
                 const outcomeText = prediction.correct ? 'Correct' : 'Incorrect';
+                const accuracyClass = prediction.accuracy >= 70 ? 'accuracy-high' : 
+                                    prediction.accuracy >= 50 ? 'accuracy-medium' : 'accuracy-low';
                 
                 archiveItem.innerHTML = `
                     <div style="display: flex; justify-content: space-between; align-items: center;">
@@ -2100,7 +3222,8 @@
                             <strong>${homeTeam.name} vs ${awayTeam.name}</strong>
                             <div class="match-date">${formatDate(new Date(prediction.date))} • Matchday ${fixture.matchday}</div>
                         </div>
-                        <div>
+                        <div style="display: flex; gap: 10px; align-items: center;">
+                            <div class="prediction-accuracy ${accuracyClass}">${prediction.accuracy}%</div>
                             <span class="prediction-outcome ${outcomeClass}">${outcomeText}</span>
                         </div>
                     </div>
@@ -2158,6 +3281,9 @@
             } else if (tabId === 'analytics') {
                 renderTeamPerformance();
                 renderPredictions();
+                renderMatchdayAnalysis();
+            } else if (tabId === 'champions-league') {
+                // Champions league tab is already handled
             } else if (tabId === 'archive') {
                 renderPredictionArchive();
             }
@@ -2350,7 +3476,7 @@
             };
         }
         
-        // Countdown timer for matchday
+        // Countdown timer for matchday - FIXED VERSION
         function startCountdown() {
             function updateCountdown() {
                 if (matchdays.length === 0) {
@@ -2366,21 +3492,32 @@
                 
                 const now = new Date();
                 const matchdayDate = new Date(currentMatchdayData.date);
-                matchdayDate.setHours(23, 59, 59, 999); // End of day
+                
+                // Set matchday to start of day
+                matchdayDate.setHours(0, 0, 0, 0);
                 
                 const diff = matchdayDate - now;
                 
                 if (diff <= 0) {
-                    matchdayCountdown.textContent = 'Matchday ended';
-                    // Check if we should move to next matchday
-                    const allCompleted = fixtures.filter(f => f.matchday === currentMatchday)
-                                                .every(f => f.completed);
-                    if (allCompleted && currentMatchday < matchdays.length) {
-                        currentMatchday++;
-                        saveData();
-                        renderFixtures();
-                        renderResultsInput();
-                        renderPredictions();
+                    // Matchday is today or in the past
+                    const today = new Date();
+                    today.setHours(0, 0, 0, 0);
+                    
+                    if (matchdayDate.getTime() === today.getTime()) {
+                        matchdayCountdown.textContent = 'Matchday is today!';
+                    } else {
+                        matchdayCountdown.textContent = 'Matchday ended';
+                        
+                        // Check if we should move to next matchday
+                        const allCompleted = fixtures.filter(f => f.matchday === currentMatchday)
+                                                    .every(f => f.completed);
+                        if (allCompleted && currentMatchday < matchdays.length) {
+                            currentMatchday++;
+                            saveData();
+                            renderFixtures();
+                            renderResultsInput();
+                            renderPredictions();
+                        }
                     }
                     return;
                 }
